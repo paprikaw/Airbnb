@@ -1,0 +1,12 @@
+import React from 'react';
+
+function ListingList () {
+  const [List, setList] = React.useState([]);
+
+  React.useEffect(() => {
+      fetch()
+  }, []);
+
+}
+
+export default ListingList

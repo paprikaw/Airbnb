@@ -9,18 +9,34 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import PropTypes from 'prop-types';
 import MenuButton from './MenuButton';
+import fetchPost from '../utils/fetchPost';
+import { StoreContext } from '../utils/store';
+import { useNavigate } from 'react-router';
 
 export default function BaseTopBar ({ leftButtons = null, rightButtons = null }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const context = React.useContext(StoreContext);
+  const setAuth = context.auth[1];
+  const token = context.token[0];
+  const navigate = useNavigate();
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleLogout = () => {
+    fetchPost('POST', '/user/auth/logout', null, 'Bearer ' + token.token)
+      .then(() => {
+        setAuth(false);
+        navigate('/');
+      })
+      .catch(err => {
+        alert(err);
+      })
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -54,7 +70,7 @@ export default function BaseTopBar ({ leftButtons = null, rightButtons = null })
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}></MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

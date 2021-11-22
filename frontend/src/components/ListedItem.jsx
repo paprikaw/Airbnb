@@ -7,9 +7,12 @@ import ButtonBase from '@mui/material/ButtonBase';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/system';
 import StarRating from 'react-svg-star-rating'
-import { IconButton } from '@mui/material';
+import { IconButton, Button } from '@mui/material';
 // eslint-disable-next-line no-unused-vars
 import ClearIcon from '@mui/icons-material/Clear';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -31,6 +34,23 @@ export default function ListedItem ({ title, propertyType, nBath, thumbNail = 'h
     sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
         <Paper sx={{ p: 2, flexGrow: 1, margin: 2, cursor: 'pointer' } } >
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                News
+              </Typography>
+              <Button color="inherit">Login</Button>
+            </Toolbar>
+          </AppBar>
           <Grid container spacing={2}>
             <Grid item >
               <ButtonBase sx={{ width: 100, height: 100 }}>

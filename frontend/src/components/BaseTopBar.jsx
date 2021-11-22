@@ -24,7 +24,7 @@ export default function BaseTopBar ({ leftButtons = null, rightButtons = null })
   };
 
   const handleLogout = () => {
-    fetchPost('POST', '/user/auth/logout', null, 'Bearer ' + token.token)
+    fetchPost('POST', '/user/auth/logout', null, token)
       .then(() => {
         setAuth(false);
         navigate('/');

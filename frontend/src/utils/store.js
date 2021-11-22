@@ -10,10 +10,11 @@ export const StoreContext = React.createContext(null);
 export default ({ children }) => {
   const [token, setToken] = React.useState(null);
   const [auth, setAuth] = React.useState(false);
-
+  const [list, setList] = React.useState([]);
   const store = {
     token: [token, setToken],
     auth: [auth, setAuth],
+    list: [list, setList],
   };
 
   return (

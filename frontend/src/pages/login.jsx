@@ -17,6 +17,7 @@ import { styled } from '@mui/material/styles';
 import fetchPost from '../utils/fetchPost';
 import { StoreContext } from '../utils/store';
 import { useNavigate } from 'react-router';
+
 /* Styling */
 const WindowBox = styled(Box)({
   marginTop: 8,
@@ -25,11 +26,22 @@ const WindowBox = styled(Box)({
   alignItems: 'center',
 });
 
+const fetchLists = () => {
+  fetchPost('Get', '/listings', null, null)
+    .then(fetchedLists => {
+      return fetchedLists;
+    })
+    .catch(err => {
+      alert(err);
+    })
+}
+
 const Login = () => {
   const navigate = useNavigate();
   const context = React.useContext(StoreContext);
-  const [token, setToken] = context.token;
+  const setToken = context.token[1];
   const setAuth = context.auth[1];
+  const setList = context.list[1];
   const loginSubmitHandle = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -40,9 +52,12 @@ const Login = () => {
     };
     fetchPost('POST', '/user/auth/login', body, null)
       .then(fetchToken => {
-        setToken(fetchToken);
-        console.log(token);
+        setToken(fetchToken.token);
+        console.log(fetchToken);
         setAuth(true);
+        const myList = fetchLists();
+        setList(myList);
+        console.log(myList);
         navigate('/HostedList');
       })
       .catch(err => {

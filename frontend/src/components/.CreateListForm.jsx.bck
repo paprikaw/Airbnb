@@ -1,0 +1,119 @@
+import React from 'react';
+import { Formik } from 'formik';
+import { Checkbox, Button, Grid, TextField, FormControlLabel } from '@mui/material';
+
+const Basic = () => (
+  <div>
+    <h1>Anywhere in your app!</h1>
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      validate={values => {
+        const errors = {};
+        if (!values.email) {
+          errors.email = 'Required';
+        } else if (
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+        ) {
+          errors.email = 'Invalid email address';
+        }
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+        /* and other goodies */
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="cardName"
+                label="Name on card"
+                fullWidth
+                autoComplete="cc-name"
+                variant="standard"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="cardNumber"
+                label="Card number"
+                fullWidth
+                autoComplete="cc-number"
+                variant="standard"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="expDate"
+                label="Expiry date"
+                fullWidth
+                autoComplete="cc-exp"
+                variant="standard"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="cvv"
+                label="CVV"
+                helperText="Last three digits on signature strip"
+                fullWidth
+                autoComplete="cc-csc"
+                variant="standard"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                onChange={handleChange}
+                control={<Checkbox color="secondary" name="saveCard" value="yes" />}
+                label="Remember credit card details for next time"
+              />
+            </Grid>
+            <Button type='submit'>haha</Button>
+          </Grid>
+          <input
+            type="email"
+            name="email"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+          />
+          {errors.email && touched.email && errors.email}
+          <input
+            type="password"
+            name="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+          />
+          {errors.password && touched.password && errors.password}
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </form>
+      )}
+    </Formik>
+  </div>
+);
+
+export default Basic;

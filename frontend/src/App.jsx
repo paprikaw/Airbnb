@@ -4,10 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './pages/login.jsx'
 import StoreProvider from './utils/store'
 import Register from './pages/register';
-import BaseTopBar from './components/BaseTopBar';
-import MenuButton from './components/MenuButton';
 import Test from './tests/Test';
 import HostedListPage from './pages/HostedListPage';
+import CreateListingPage from './pages/CreateListingPage';
 
 function App () {
   return (
@@ -16,10 +15,9 @@ function App () {
          <Routes>
            <Route path={'/'} element={<Login />}/>
            <Route path={'/register'} element={<Register />}/>
-           <Route path={'/topbarTest'} element={<BaseTopBar />}/>
-           <Route path={'/DrawerTest'} element={<MenuButton />}/>
            <Route path={'/Test'} element={<Test />}/>
            <Route path={'/HostedList'} element={<HostedListPage />}/>
+           <Route path={'/CreateList'} element={<CreateListingPage />}/>
          </Routes>
       </Router>
     </StoreProvider>

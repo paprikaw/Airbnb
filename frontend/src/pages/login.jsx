@@ -26,22 +26,13 @@ const WindowBox = styled(Box)({
   alignItems: 'center',
 });
 
-const fetchLists = () => {
-  fetchPost('Get', '/listings', null, null)
-    .then(fetchedLists => {
-      return fetchedLists;
-    })
-    .catch(err => {
-      alert(err);
-    })
-}
-
 const Login = () => {
   const navigate = useNavigate();
   const context = React.useContext(StoreContext);
   const setToken = context.token[1];
   const setAuth = context.auth[1];
   const setList = context.list[1];
+  const setOwner = context.owner[1];
   const loginSubmitHandle = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -55,15 +46,22 @@ const Login = () => {
         setToken(fetchToken.token);
         console.log(fetchToken);
         setAuth(true);
-        const myList = fetchLists();
-        setList(myList);
-        console.log(myList);
+        fetchPost('Get', '/listings', null, null)
+          .then(data => {
+            console.log(data.listings)
+            setList(data.listings);
+          })
+          .catch(err => {
+            alert(err);
+          })
+        setOwner(body.email);
         navigate('/HostedList');
       })
       .catch(err => {
         alert(err);
       })
   }
+
   return (
    <Container component="main" maxWidth="xs">
      <CssBaseline />

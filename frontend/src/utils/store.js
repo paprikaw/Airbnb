@@ -11,10 +11,15 @@ export default ({ children }) => {
   const [token, setToken] = React.useState(null);
   const [auth, setAuth] = React.useState(false);
   const [list, setList] = React.useState([]);
+  const [owner, setOwner] = React.useState(null);
+  const [userListDetails, setUserListDetails] = React.useState([]);
+
   const store = {
     token: [token, setToken],
     auth: [auth, setAuth],
     list: [list, setList],
+    owner: [owner, setOwner],
+    userListDetails: [userListDetails, setUserListDetails],
   };
 
   return (

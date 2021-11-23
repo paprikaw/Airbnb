@@ -4,9 +4,9 @@ import { Formik, Form } from 'formik';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { Button, Typography } from '@mui/material';
-import fetchPost from '../utils/fetchPost';
-import { StoreContext } from '../utils/store';
-import { updateList } from '../utils/updateList';
+import fetchPost from '../../utils/fetchPost';
+import { StoreContext } from '../../utils/store';
+import { updateList } from '../../utils/updateList';
 
 const CreateListForm = () => {
   const context = React.useContext(StoreContext);
@@ -18,7 +18,7 @@ const CreateListForm = () => {
         Create Listing
       </Typography>
       <Formik
-        initialValues={{ title: '', address: '', price: 0, type: '', bedroomNumber: 0, amenity: '' }}
+        initialValues={{ title: '', address: '', price: 0, type: '', nBath: 0, amenity: '', bedRooms: {} }}
         onSubmit={(values, { setSubmitting }) => {
           console.log('here');
           const body = {
@@ -28,8 +28,12 @@ const CreateListForm = () => {
             thumbnail: null,
             metadata: {
               amenity: values.amenity,
-              bedroomNumber: values.bedroomNumber,
+              nBath: values.bedroomNumber,
               type: values.type,
+              bedRooms: {
+                nBeds: 0,
+                type: null
+              },
             }
           }
           fetchPost('POST', '/listings/new', body, token)

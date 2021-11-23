@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ListingForm from '../components/ListingCreateForm';
+import ListingForm from '../components/List_components/ListingCreateForm';
 import BaseTopBar from '../components/BaseTopBar';
 import { StoreContext } from '../utils/store';
 import LoginNotice from '../components/LoginNotice';

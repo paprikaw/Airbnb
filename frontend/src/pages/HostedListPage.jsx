@@ -12,40 +12,30 @@ import fetchPost from '../utils/fetchPost';
 export default function HostedListPage () {
   const context = React.useContext(StoreContext);
   const auth = context.auth[0];
-  const navigate = useNavigate();
   const list = context.list[0];
   const owner = context.owner[0];
-  const [userListDetails, setUserListDetails] = context.userListDetails;
+  const [userListDetails, setUserListDetails] = React.useState([]);
+  const navigate = useNavigate();
   const PromiseList = []
-  // const allHostedIds = [];
   const fabStyle = {
-    position: 'fix',
-    bottom: 16,
-    right: 16,
+    position: 'fixed',
+    bottom: 20,
+    right: 20,
+    top: 'auto',
   };
 
   const handleAddButton = () => {
     navigate('/CreateList');
   }
 
-  // function fetchAll () {
-  //   list.filter(element => element.owner === owner).map(element => element.id).forEach(id => {
-  //     PromiseList.push(fetchPost('GET', `/listings/${id}`, null, null));
-  //   })
-  //   Promise.all(PromiseList)
-  //     .then(value => {
-  //       console.log(value);
-  //       setUserListDetails(value);
-  //     })
-  //     .catch(err => alert(err));
-  // }
-
   React.useEffect(() => {
+    console.log(list);
     list.filter(element => element.owner === owner).map(element => element.id).forEach(id => {
       PromiseList.push(fetchPost('GET', `/listings/${id}`, null, null));
     })
     Promise.all(PromiseList)
       .then(value => {
+        console.log(value);
         setUserListDetails(value.map(element => element.listing));
       })
       .catch(err => alert(err));
@@ -65,6 +55,7 @@ export default function HostedListPage () {
               nReviews={element.reviews.length}
               rating={0}
               nBath={element.metadata.nBath}
+              thumbNail={element.thumbnail ? element.thumbnail : 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6'}
               />
             </React.Fragment>
           ))}

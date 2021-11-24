@@ -12,14 +12,17 @@ export default ({ children }) => {
   const [auth, setAuth] = React.useState(false);
   const [list, setList] = React.useState([]);
   const [owner, setOwner] = React.useState(null);
-  const [userListDetails, setUserListDetails] = React.useState([]);
-
+  const [roomList, setRoomList] = React.useState([]);
+  const [listHead, setListHead] = React.useState(0);
+  const [thumbnail, setThumbnail] = React.useState('');
   const store = {
     token: [token, setToken],
     auth: [auth, setAuth],
     list: [list, setList],
     owner: [owner, setOwner],
-    userListDetails: [userListDetails, setUserListDetails],
+    roomList: [roomList, setRoomList],
+    listHead: [listHead, setListHead],
+    thumbnail: [thumbnail, setThumbnail],
   };
 
   return (

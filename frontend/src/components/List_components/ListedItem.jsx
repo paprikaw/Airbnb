@@ -9,9 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Grid, Card } from '@mui/material';
+import { Grid, Card, Popover, Button } from '@mui/material';
 import StarRating from 'react-svg-star-rating';
-
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -24,8 +23,18 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function ListedItem ({ title = 'No Title', propertyType = 'No Type', nBath = 0, thumbNail = 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6', rating = 0, nReviews = 0, price = 'unset' }) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handlePopoverClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
 
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -36,9 +45,24 @@ export default function ListedItem ({ title = 'No Title', propertyType = 'No Typ
         <Card sx={{ margin: 'auto', maxWidth: 270 }}>
           <CardHeader
             action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
+              <React.Fragment>
+                <IconButton aria-label="settings" onClick={handlePopoverClick}>
+                  <MoreVertIcon />
+                </IconButton>
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handlePopoverClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <Button>Edit</Button>
+                  <Button>Edit</Button>
+                </Popover>
+              </React.Fragment>
             }
             title={title}
             subheader={propertyType}

@@ -1,20 +1,23 @@
 import React from 'react';
 import ImageUploading from 'react-images-uploading';
-import { Grid, Button } from '@mui/material';
-function Test () {
+import { Button } from '@mui/material';
+import { StoreContext } from '../utils/store';
+
+function UploadImageButton ({ ButtonText = 'Click or drop here' }) {
+  const context = React.useContext(StoreContext);
+  const setThumbnail = context.thumbnail[1];
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
+    const image = imageList.length !== 0 ? imageList[0].data_url : '';
     setImages(imageList);
+    setThumbnail(image);
   };
 
   return (
     <React.Fragment>
-      <Grid item xs={12}>
         <ImageUploading
-          multiple
           value={images}
           onChange={onChange}
           maxNumber={maxNumber}
@@ -32,19 +35,17 @@ function Test () {
             // write your building UI
             <div className="upload__image-wrapper">
               <Button
-                variant='outlined'
                 style={isDragging ? { color: 'red' } : null}
                 onClick={onImageUpload}
                 {...dragProps}
               >
-                Click or Drop here
+                  {ButtonText}
               </Button>
               &nbsp;
               {imageList.map((image, index) => (
                 <div key={index} className="image-item">
                   <img src={image.data_url} alt="" width="100" />
                   <div className="image-item__btn-wrapper">
-                    <Button onClick={() => onImageUpdate(index)}>Update</Button>
                     <Button onClick={() => onImageRemove(index)}>Remove</Button>
                   </div>
                 </div>
@@ -52,8 +53,7 @@ function Test () {
             </div>
           )}
         </ImageUploading>
-      </Grid>
     </React.Fragment>
   );
 }
-export default Test;
+export default UploadImageButton;

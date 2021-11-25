@@ -1,16 +1,20 @@
 import * as React from 'react';
-import ListingForm from '../components/List_components/ListingCreateForm';
 import { StoreContext } from '../utils/store';
 import LoginNotice from '../components/LoginNotice';
+import { useParams } from 'react-router';
 import ListingFormContainer from '../components/List_components/ListingFormContainer';
+import EditListForm from '../components/List_components/EditListForm';
 
-export default function CreateListingPage () {
+export default function EditListPage () {
+  const { listingId } = useParams();
+  console.log(listingId);
   const context = React.useContext(StoreContext);
   const auth = context.auth[0];
+
   if (auth) {
     return (
       <ListingFormContainer>
-        <ListingForm />
+        <EditListForm listingId={ listingId }/>
       </ListingFormContainer>
     );
   } else {

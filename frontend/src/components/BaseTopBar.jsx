@@ -16,13 +16,15 @@ import { useNavigate } from 'react-router';
 export default function BaseTopBar ({ leftButtons = null, rightButtons = null }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const context = React.useContext(StoreContext);
-  const setAuth = context.auth[1];
+  const [auth, setAuth] = context.auth;
   const token = context.token[0];
   const navigate = useNavigate();
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
+  const handleLogin = () => {
+    navigate('/login');
+  }
   const handleLogout = () => {
     fetchPost('POST', '/user/auth/logout', null, token)
       .then(() => {
@@ -71,6 +73,9 @@ export default function BaseTopBar ({ leftButtons = null, rightButtons = null })
             onClose={handleClose}
           >
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            {!auth &&
+              <MenuItem onClick={handleLogin}>Login</MenuItem>
+             }
           </Menu>
         </Toolbar>
       </AppBar>

@@ -11,7 +11,7 @@ import Select from '@mui/material/Select';
 import CreateRoomModal from './CreateRoomModal';
 // import RoomPropertyItem from './RoomPropertyItem';
 import RoomPropertyItem from './RoomPropertyItem';
-import UploadImageButton from '../UploadImageButton';
+import UploadThumbnailButton from '../UploadThumbnailButton';
 
 const CreateListForm = () => {
   const context = React.useContext(StoreContext);
@@ -26,7 +26,18 @@ const CreateListForm = () => {
         Create Listing
       </Typography>
       <Formik
-        initialValues={{ title: '', address: '', price: 0, type: 'Apartment', nBath: 0, amenity: '', bedRooms: {} }}
+        initialValues={{ title: '', address: '', price: 0, type: 'Apartment', nBath: 0, amenity: '', }}
+        validate={values => {
+          const errors = {};
+          if (!roomList) {
+            errors.email = 'Required';
+          } else if (
+            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+          ) {
+            errors.email = 'Invalid email address';
+          }
+          return errors;
+        }}
         onSubmit={(values, { setSubmitting }) => {
           console.log('here');
           const body = {
@@ -38,10 +49,6 @@ const CreateListForm = () => {
               amenity: values.amenity,
               nBath: values.bathroomNumber,
               type: values.type,
-              bedRooms: {
-                nBeds: 0,
-                type: null
-              },
               rooms: roomList,
             }
           }
@@ -50,7 +57,7 @@ const CreateListForm = () => {
           fetchPost('POST', '/listings/new', body, token)
             .then(listid => {
               updateList(token, setList);
-              return console.log(listid);
+              console.log(listid);
             })
             .catch(err => {
               alert(err);
@@ -132,7 +139,7 @@ const CreateListForm = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <UploadImageButton ButtonText="Upload ThumbNail" />
+                <UploadThumbnailButton ButtonText="Upload ThumbNail" />
               </Grid>
               <Grid item xs={12} md={6}>
                 <CreateRoomModal />

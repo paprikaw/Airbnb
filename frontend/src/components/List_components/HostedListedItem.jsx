@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
@@ -11,6 +12,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid, Card, Popover, Button } from '@mui/material';
 import StarRating from 'react-svg-star-rating';
+import { useNavigate } from 'react-router';
+import PublishListModal from '../PublishListModal';
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -22,8 +26,12 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function ListedItem ({ title = 'No Title', propertyType = 'No Type', nBath = 0, thumbNail = 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6', rating = 0, nReviews = 0, price = 'unset' }) {
+export default function HostedListedItem ({ listingId = -1, title = 'No Title', propertyType = 'No Type', nBath = 0, thumbNail = 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6', rating = 0, nReviews = 0, price = 'unset', isPublished = false }) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClickEdit = () => {
+    listingId !== -1 && navigate(`/EditList/${listingId}`);
+  }
   const handlePopoverClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -59,8 +67,9 @@ export default function ListedItem ({ title = 'No Title', propertyType = 'No Typ
                     horizontal: 'left',
                   }}
                 >
-                  <Button>Edit</Button>
-                  <Button>Edit</Button>
+                  <div>
+                    <Button onClick={ handleClickEdit }>Edit</Button>
+                  </div>
                 </Popover>
               </React.Fragment>
             }
@@ -84,8 +93,33 @@ export default function ListedItem ({ title = 'No Title', propertyType = 'No Typ
             <Typography variant="body2" color="text.secondary">
               Price: {price}
             </Typography>
+
+            { isPublished &&
+            <React.Fragment>
+              <Typography variant="body2" color="text.secondary">
+                Status: Published
+              </Typography>
+            </React.Fragment>
+            }
+            { !isPublished &&
+            <React.Fragment>
+              <Typography variant="body2" color="text.secondary">
+                Status: Inactive
+              </Typography>
+            </React.Fragment>
+            }
           </CardContent>
           <CardActions disableSpacing>
+            { !isPublished &&
+              <PublishListModal listingId={listingId}/>
+            }
+            { isPublished &&
+            <React.Fragment>
+              <Button variant="contained">
+                Unpublish
+              </Button>
+            </React.Fragment>
+            }
             <ExpandMore
               expand={expanded}
               onClick={handleExpandClick}

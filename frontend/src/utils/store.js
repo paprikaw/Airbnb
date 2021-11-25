@@ -15,6 +15,9 @@ export default ({ children }) => {
   const [roomList, setRoomList] = React.useState([]);
   const [listHead, setListHead] = React.useState(0);
   const [thumbnail, setThumbnail] = React.useState('');
+  const [localImages, setLocalImages] = React.useState([]);
+  const [listingInfos, setListingInfos] = React.useState({});
+  const [listingIds, setListingIds] = React.useState([]);
   const store = {
     token: [token, setToken],
     auth: [auth, setAuth],
@@ -23,6 +26,9 @@ export default ({ children }) => {
     roomList: [roomList, setRoomList],
     listHead: [listHead, setListHead],
     thumbnail: [thumbnail, setThumbnail],
+    localImages: [localImages, setLocalImages],
+    listingInfos: [listingInfos, setListingInfos],
+    listingIds: [listingIds, setListingIds],
   };
 
   return (

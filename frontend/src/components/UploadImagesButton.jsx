@@ -3,16 +3,16 @@ import ImageUploading from 'react-images-uploading';
 import { Button } from '@mui/material';
 import { StoreContext } from '../utils/store';
 
-function UploadImageButton ({ ButtonText = 'Click or drop here' }) {
+function UploadImagesButton ({ ButtonText = 'Click or drop here' }) {
   const context = React.useContext(StoreContext);
-  const setThumbnail = context.thumbnail[1];
+  const setLocalImages = context.localImages[1];
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
+
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
-    const image = imageList.length !== 0 ? imageList[0].data_url : '';
     setImages(imageList);
-    setThumbnail(image);
+    setLocalImages(imageList.map(element => element.data_url));
   };
 
   return (
@@ -22,6 +22,7 @@ function UploadImageButton ({ ButtonText = 'Click or drop here' }) {
           onChange={onChange}
           maxNumber={maxNumber}
           dataURLKey="data_url"
+          multiple
         >
           {({
             imageList,
@@ -56,4 +57,4 @@ function UploadImageButton ({ ButtonText = 'Click or drop here' }) {
     </React.Fragment>
   );
 }
-export default UploadImageButton;
+export default UploadImagesButton;

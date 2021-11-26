@@ -58,7 +58,7 @@ const CreateRoomModal = () => {
             {({ handleChange, values, handleSubmit }) => (
               <Form onSubmit={handleSubmit}>
                 <Grid container spacing={3}>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12}>
                     <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
                       <InputLabel id="room-type">Room Type</InputLabel>
                       <Select
@@ -74,7 +74,7 @@ const CreateRoomModal = () => {
                       </Select>
                     </FormControl >
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12}>
                     <TextField
                       required
                       name="nBeds"

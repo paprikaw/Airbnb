@@ -12,6 +12,7 @@ import CreateRoomModal from './CreateRoomModal';
 // import RoomPropertyItem from './RoomPropertyItem';
 import RoomPropertyItem from './RoomPropertyItem';
 import UploadThumbnailButton from '../UploadThumbnailButton';
+import { useNavigate } from 'react-router';
 
 const CreateListForm = () => {
   const context = React.useContext(StoreContext);
@@ -20,6 +21,7 @@ const CreateListForm = () => {
   const [roomList, setRoomList] = context.roomList;
   const thumbnail = context.thumbnail[0];
   const setListHead = context.listHead[1];
+  const navigate = useNavigate();
   return (
     <div>
       <Typography variant="h6" gutterBottom>
@@ -52,6 +54,7 @@ const CreateListForm = () => {
             .then(listid => {
               updateList(token, setList);
               console.log(listid);
+              navigate('/HostedList');
             })
             .catch(err => {
               alert(err);
@@ -108,7 +111,7 @@ const CreateListForm = () => {
               <Grid item xs={6} md={4}>
                 <TextField
                   required
-                  name="stree"
+                  name="street"
                   label="Street"
                   fullWidth
                   autoComplete="cc-number"
@@ -169,7 +172,7 @@ const CreateListForm = () => {
                 <UploadThumbnailButton ButtonText="Upload ThumbNail" />
               </Grid>
               <Grid item xs={12} md={6}>
-                <CreateRoomModal />
+                <CreateRoomModal data-test-target='CreateRoomModal'/>
               </Grid>
               {roomList && roomList.map((element, key) => {
                 return (

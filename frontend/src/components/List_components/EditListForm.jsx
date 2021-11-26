@@ -15,7 +15,7 @@ import RoomPropertyItem from './RoomPropertyItem';
 import UploadThumbnailButton from '../UploadThumbnailButton';
 import UploadImagesButton from '../UploadImagesButton';
 import isObjectEmpty from '../../utils/isObjectEmpty';
-
+import { useNavigate } from 'react-router';
 const EditListForm = ({ listingId }) => {
   const context = React.useContext(StoreContext);
   const token = context.token[0];
@@ -26,7 +26,7 @@ const EditListForm = ({ listingId }) => {
   const setListHead = context.listHead[1];
   const [listingInfos, setListingInfos] = React.useState({});
   const [isReady, setIsReady] = React.useState(false);
-
+  const navigate = useNavigate();
   React.useEffect(() => {
     fetchPost('GET', `/listings/${listingId}`, null, null).then((result) => {
       console.log(result, listingId);
@@ -88,6 +88,7 @@ const EditListForm = ({ listingId }) => {
               fetchPost('PUT', `/listings/${listingId}`, body, token)
                 .then(_ => {
                   updateList(token, setList);
+                  navigate('/HostedList')
                 })
                 .catch(err => {
                   alert(err);
@@ -98,7 +99,7 @@ const EditListForm = ({ listingId }) => {
               <Form>
                 <Grid container spacing={3}>
                   <React.Fragment>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12}>
                       <TextField
                         required
                         name="title"
@@ -110,7 +111,7 @@ const EditListForm = ({ listingId }) => {
                         defaultValue={ values.title }
                       />
                     </Grid>
-                    <Grid item xs={6} md={4}>
+                    <Grid item xs={6} >
                     <TextField
                       required
                       name="country"
@@ -122,7 +123,7 @@ const EditListForm = ({ listingId }) => {
                       defaultValue={ values.country }
                     />
                   </Grid>
-                  <Grid item xs={6} md={4}>
+                  <Grid item xs={6} >
                     <TextField
                       required
                       name="city"
@@ -134,7 +135,7 @@ const EditListForm = ({ listingId }) => {
                       defaultValue={ values.city }
                     />
                   </Grid>
-                  <Grid item xs={6} md={4}>
+                  <Grid item xs={6} >
                     <TextField
                       required
                       name="state"
@@ -146,7 +147,7 @@ const EditListForm = ({ listingId }) => {
                       defaultValue={ values.state }
                     />
                   </Grid>
-                  <Grid item xs={6} md={4}>
+                  <Grid item xs={6} >
                     <TextField
                       required
                       name="street"
@@ -158,7 +159,7 @@ const EditListForm = ({ listingId }) => {
                       defaultValue={ values.street }
                     />
                   </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} >
                       <TextField
                         required
                         name="price"
@@ -170,7 +171,7 @@ const EditListForm = ({ listingId }) => {
                         defaultValue={ values.price }
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} >
                       <FormControl fullWidth variant="standard" sx={{ minWidth: 120 }}>
                         <InputLabel id="property-type">Property Type</InputLabel>
                         <Select
@@ -210,25 +211,25 @@ const EditListForm = ({ listingId }) => {
                         defaultValue={ values.amenity }
                       />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} >
                       <UploadThumbnailButton ButtonText="Update ThumbNail" />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} >
                       <UploadImagesButton ButtonText="Upload Images" />
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} >
                       <CreateRoomModal />
                     </Grid>
                     {roomList && roomList.map((element, key) => {
                       return (
                         <React.Fragment key={key}>
-                          <Grid item xs={12} md={6}>
-                            <RoomPropertyItem type={element.type} nBeds={element.nBeds} idx={element.idx}/>
+                          <Grid item xs={12} >
+                            <RoomPropertyItem type={element.type} nBeds={element.nBeds} idx={element.idx} setRoomList={setRoomList}/>
                           </Grid>
                         </React.Fragment>
                       )
                     })}
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} >
                       <Button type='submit'>Update</Button>
                     </Grid>
                   </React.Fragment>

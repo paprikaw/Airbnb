@@ -6,13 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 function SearchField ({ listingInfos = [] }) {
   // eslint-disable-next-line no-unused-vars
-  const [searchField, setSearchField] = useState('');
-  // eslint-disable-next-line no-unused-vars
-  const filteredListing = listingInfos.filter(
-    element => {
-      return (true);
-    }
-  );
+  const setSearchField = useState('')[1];
   const handleChange = e => {
     setSearchField(e.target.value);
   };

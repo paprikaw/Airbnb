@@ -13,12 +13,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { StoreContext } from '../utils/store';
 import fetchPost from '../utils/fetchPost';
+import { useNavigate } from 'react-router';
 
 const theme = createTheme();
 
 export default function Register () {
   const context = React.useContext(StoreContext);
   const [token, setToken] = context.token;
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -33,6 +35,7 @@ export default function Register () {
       .then(fetchToken => {
         setToken(fetchToken);
         console.log(token)
+        navigate('/login')
       })
       .catch(err => {
         alert(err);

@@ -14,6 +14,8 @@ export default function ListingPage () {
   // const auth = context.auth[0];
   const [list, setList] = context.list;
   const [listingIds, setListingIds] = React.useState([]);
+  const token = context.token[0];
+  const [auth, setAuth] = context.auth;
   const setUserListDetails = context.userListDetails[1];
   const [listingPageRenderList, setlistingPageRenderList] = context.listingPageRenderList;
   // const [allLists, setAllLists] = React.useState([]);
@@ -62,7 +64,7 @@ export default function ListingPage () {
 
   return (
     <React.Fragment>
-      <BaseTopBar rightComponents={<SearchModal />}/>
+      <BaseTopBar rightComponents={<SearchModal />} token={token} auth={auth} setAuth={setAuth}/>
       <HostedListing>
         {listingPageRenderList.length > 0 && listingPageRenderList.map((element, index) => (
           <React.Fragment key={index}>

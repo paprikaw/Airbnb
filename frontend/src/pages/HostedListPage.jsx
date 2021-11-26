@@ -11,7 +11,8 @@ import fetchPost from '../utils/fetchPost';
 
 export default function HostedListPage () {
   const context = React.useContext(StoreContext);
-  const auth = context.auth[0];
+  const [auth, setAuth] = context.auth;
+  const token = context.token[0];
   const list = context.list[0];
   const owner = context.owner[0];
   const [listingIds, setListingIds] = React.useState([]);
@@ -52,7 +53,7 @@ export default function HostedListPage () {
   if (auth) {
     return (
       <React.Fragment>
-        <BaseTopBar />
+        <BaseTopBar token={token} auth={auth} setAuth={setAuth}/>
         <HostedListing>
           {userListDetails.length > 0 && userListDetails.map((element, index) => (
             <React.Fragment key={index}>
@@ -70,7 +71,7 @@ export default function HostedListPage () {
             </React.Fragment>
           ))}
         </HostedListing>
-        <Fab sx={fabStyle} aria-label={'add'} color={'secondary'} size='small' onClick={handleAddButton}>
+        <Fab sx={fabStyle} aria-label={'add'} color={'secondary'} size='small' name='add' onClick={handleAddButton}>
           <AddIcon />
         </Fab>
       </ React.Fragment>

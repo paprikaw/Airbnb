@@ -1,37 +1,37 @@
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Grid, Card, Popover, Button } from '@mui/material';
 import StarRating from 'react-svg-star-rating';
 import { useNavigate } from 'react-router';
 import PublishListModal from '../PublishListModal';
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+import ChanableButton from '../Buttons/ChanableButton';
+import fetchPost from '../../utils/fetchPost';
+import { StoreContext } from '../../utils/store';
 
 export default function HostedListedItem ({ listingId = -1, title = 'No Title', propertyType = 'No Type', nBath = 0, thumbNail = 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6', rating = 0, nReviews = 0, price = 'unset', isPublished = false }) {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const context = React.useContext(StoreContext);
+  const token = context.token[0];
+  const [published, setPublished] = React.useState(isPublished);
+
   const handleClickEdit = () => {
     listingId !== -1 && navigate(`/EditList/${listingId}`);
   }
+  const handleUnPublish = () => {
+    fetchPost('PUT', `/listings/unpublish/${listingId}`, null, token)
+      .then(() => {})
+      .catch(err => alert(err));
+    setPublished(false);
+  }
+
   const handlePopoverClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -41,11 +41,6 @@ export default function HostedListedItem ({ listingId = -1, title = 'No Title', 
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
-  const [expanded, setExpanded] = React.useState(false);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   return (
     <React.Fragment>
@@ -93,15 +88,14 @@ export default function HostedListedItem ({ listingId = -1, title = 'No Title', 
             <Typography variant="body2" color="text.secondary">
               Price: {price}
             </Typography>
-
-            { isPublished &&
+            { published &&
             <React.Fragment>
               <Typography variant="body2" color="text.secondary">
                 Status: Published
               </Typography>
             </React.Fragment>
             }
-            { !isPublished &&
+            { !published &&
             <React.Fragment>
               <Typography variant="body2" color="text.secondary">
                 Status: Inactive
@@ -110,32 +104,15 @@ export default function HostedListedItem ({ listingId = -1, title = 'No Title', 
             }
           </CardContent>
           <CardActions disableSpacing>
-            { !isPublished &&
-              <PublishListModal listingId={listingId}/>
+            { !published &&
+              <PublishListModal data-test-target='PublishListModal' text listingId={listingId} func={setPublished}/>
             }
-            { isPublished &&
+            { published &&
             <React.Fragment>
-              <Button variant="contained">
-                Unpublish
-              </Button>
+              <ChanableButton name='UnpublishButton' variant='contained' onClick={handleUnPublish} innerText={'UnPublish'}/>
             </React.Fragment>
             }
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
           </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography>
-                haha
-              </Typography>
-            </CardContent>
-          </Collapse>
         </Card>
       </Grid>
     </React.Fragment>

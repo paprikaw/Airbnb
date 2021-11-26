@@ -12,7 +12,7 @@ const now = new Date();
 const yesterdayBegin = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
 const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
 
-const PublishListModal = ({ listingId = -1 }) => {
+const PublishListModal = ({ listingId = -1, func = () => {} }) => {
   const context = React.useContext(StoreContext);
   const [open, setOpen] = React.useState(false);
   const token = context.token[0]
@@ -46,7 +46,7 @@ const PublishListModal = ({ listingId = -1 }) => {
   // const [roomList, setRoomList] = React.useState([]);
   return (
     <React.Fragment>
-      <Button onClick={handleOpen}>Add room</Button>
+      <Button onClick={handleOpen} id='PublishButton'>Publish</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -63,20 +63,21 @@ const PublishListModal = ({ listingId = -1 }) => {
               console.log(listingId);
               console.log(rangeList);
               console.log(token);
-              if (rangeList.length > 0 && listingId !== -1) {
+              if (listingId !== -1) {
                 const body = {
-                  availability: rangeList,
+                  availability: rangeList.length > 0 ? rangeList : [[new Date(), new Date()]],
                 };
                 fetchPost('PUT', `/listings/publish/${listingId}`, body, token)
                   .then(_ => {
                     updateList(token, setList);
+                    func(true);
                   })
                   .catch(err => {
                     alert(err);
                   })
                 handleClose();
               } else {
-                alert('You should add date range');
+                alert('Error Happened');
               }
             }}
           >

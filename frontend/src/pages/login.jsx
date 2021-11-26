@@ -36,8 +36,8 @@ const Login = () => {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
     const body = {
-      email: data.get('email'),
-      password: data.get('password'),
+      email: data.get('email1'),
+      password: data.get('password1'),
     };
     fetchPost('POST', '/user/auth/login', body, null)
       .then(fetchToken => {
@@ -75,9 +75,9 @@ const Login = () => {
             margin="normal"
             required
             fullWidth
-            id="email"
+            id="email1"
             label="Email Address"
-            name="email"
+            name="email1"
             autoComplete="email"
             autoFocus
           />
@@ -85,10 +85,10 @@ const Login = () => {
             margin="normal"
             required
             fullWidth
-            name="password"
+            name="password1"
             label="Password"
             type="password"
-            id="password"
+            id="password1"
             autoComplete="current-password"
           />
           <Button

@@ -4,10 +4,10 @@ context('Flow of working with airbrb - happy path', () => {
     cy.visit('localhost:3000/register')
   });
   it('Successfully Signs up', () => {
-    const name = 'Happy Eric';
-    const email = 'eric.unsw@gmail.com';
+    const name = 'Happy Eric1';
+    const email = 'eric.1unsw@gmail.com';
     const password = 'qweadsf';
-    const title = 'WarmHouse';
+    const title = 'WarmHouse1';
     const country = 'Australia';
     const City = 'Sydney';
     const State = 'NSW';

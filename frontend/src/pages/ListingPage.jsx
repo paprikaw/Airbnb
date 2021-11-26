@@ -7,12 +7,15 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router';
 import fetchPost from '../utils/fetchPost';
 import ListingItem from '../components/List_components/ListingItem';
+import SearchModal from '../components/SearchModal';
+
 export default function ListingPage () {
   const context = React.useContext(StoreContext);
   // const auth = context.auth[0];
   const [list, setList] = context.list;
   const [listingIds, setListingIds] = React.useState([]);
-  const [userListDetails, setUserListDetails] = React.useState([]);
+  const setUserListDetails = context.userListDetails[1];
+  const [listingPageRenderList, setlistingPageRenderList] = context.listingPageRenderList;
   // const [allLists, setAllLists] = React.useState([]);
   const navigate = useNavigate();
   const PromiseList = []
@@ -49,8 +52,9 @@ export default function ListingPage () {
       })
       Promise.all(PromiseList)
         .then(value => {
-          console.log(value);
-          setUserListDetails(value.map(element => element.listing).filter(element => element.published));
+          const tmpList = value.map(element => element.listing).filter(element => element.published)
+          setUserListDetails(tmpList);
+          setlistingPageRenderList(tmpList);
         })
         .catch(err => alert(err));
     }
@@ -58,9 +62,9 @@ export default function ListingPage () {
 
   return (
     <React.Fragment>
-      <BaseTopBar />
+      <BaseTopBar rightComponents={<SearchModal />}/>
       <HostedListing>
-        {userListDetails.length > 0 && userListDetails.map((element, index) => (
+        {listingPageRenderList.length > 0 && listingPageRenderList.map((element, index) => (
           <React.Fragment key={index}>
             <ListingItem
               title={element.title}
@@ -71,7 +75,6 @@ export default function ListingPage () {
               nBath={element.metadata.nBath}
               thumbNail={ element.thumbnail ? element.thumbnail : 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6'}
               listingId = {listingIds.length > 0 && listingIds[index]}
-              isPublished = {element.published}
             />
           </React.Fragment>
         ))}

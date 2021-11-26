@@ -17,6 +17,8 @@ import fetchPost from '../utils/fetchPost';
 const theme = createTheme();
 
 export default function Register () {
+  const context = React.useContext(StoreContext);
+  const [token, setToken] = context.token;
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -29,8 +31,6 @@ export default function Register () {
 
     fetchPost('POST', '/user/auth/register', body, null)
       .then(fetchToken => {
-        const context = React.useContext(StoreContext);
-        const [token, setToken] = context.token;
         setToken(fetchToken);
         console.log(token)
       })

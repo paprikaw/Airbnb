@@ -15,7 +15,9 @@ export default function MenuButton () {
   const HostedListHandler = () => {
     navigate('/HostedList');
   }
-
+  const AllListHandler = () => {
+    navigate('/');
+  }
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -37,7 +39,7 @@ export default function MenuButton () {
       </List>
       <Divider />
       <List>
-        <ListItem button key={'All Lists'} onClick={HostedListHandler}>
+        <ListItem button key={'All Lists'} onClick={AllListHandler}>
           <ListItemText primary={'All Lists'} />
         </ListItem>
       </List>

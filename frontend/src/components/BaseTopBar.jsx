@@ -13,7 +13,7 @@ import fetchPost from '../utils/fetchPost';
 import { StoreContext } from '../utils/store';
 import { useNavigate } from 'react-router';
 
-export default function BaseTopBar ({ leftButtons = null, rightButtons = null }) {
+export default function BaseTopBar ({ leftComponents = null, rightComponents = null }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const context = React.useContext(StoreContext);
   const [auth, setAuth] = context.auth;
@@ -44,9 +44,9 @@ export default function BaseTopBar ({ leftButtons = null, rightButtons = null })
       <AppBar position="static">
         <Toolbar >
           <MenuButton />
-          {leftButtons}
+          {leftComponents}
           <Box sx={{ flexGrow: 1 }} />
-          {rightButtons}
+          {rightComponents}
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -84,6 +84,6 @@ export default function BaseTopBar ({ leftButtons = null, rightButtons = null })
 }
 
 BaseTopBar.propTypes = {
-  leftButtons: PropTypes.element,
-  rightButtons: PropTypes.element
+  leftComponents: PropTypes.element,
+  rightComponents: PropTypes.element
 };

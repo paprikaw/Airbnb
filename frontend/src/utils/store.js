@@ -18,6 +18,8 @@ export default ({ children }) => {
   const [localImages, setLocalImages] = React.useState([]);
   const [listingInfos, setListingInfos] = React.useState({});
   const [listingIds, setListingIds] = React.useState([]);
+  const [userListDetails, setUserListDetails] = React.useState([]);
+  const [listingPageRenderList, setlistingPageRenderList] = React.useState([]);
   const store = {
     token: [token, setToken],
     auth: [auth, setAuth],
@@ -29,6 +31,8 @@ export default ({ children }) => {
     localImages: [localImages, setLocalImages],
     listingInfos: [listingInfos, setListingInfos],
     listingIds: [listingIds, setListingIds],
+    userListDetails: [userListDetails, setUserListDetails],
+    listingPageRenderList: [listingPageRenderList, setlistingPageRenderList],
   };
 
   return (

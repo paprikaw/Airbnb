@@ -26,23 +26,17 @@ const CreateListForm = () => {
         Create Listing
       </Typography>
       <Formik
-        initialValues={{ title: '', address: '', price: 0, type: 'Apartment', nBath: 0, amenity: '', }}
-        validate={values => {
-          const errors = {};
-          if (!roomList) {
-            errors.email = 'Required';
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = 'Invalid email address';
-          }
-          return errors;
-        }}
+        initialValues={{ title: '', country: '', city: '', state: '', street: '', price: 0, type: 'Apartment', nBath: 0, amenity: '', }}
         onSubmit={(values, { setSubmitting }) => {
           console.log('here');
           const body = {
             title: values.title,
-            address: { address: values.address },
+            address: {
+              country: values.country,
+              city: values.city,
+              state: values.state,
+              street: values.street,
+            },
             price: values.price,
             thumbnail: thumbnail,
             metadata: {
@@ -78,11 +72,44 @@ const CreateListForm = () => {
                   onChange={ handleChange }
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={6} md={4}>
                 <TextField
                   required
-                  name="address"
-                  label="Address"
+                  name="country"
+                  label="Country"
+                  fullWidth
+                  autoComplete="cc-number"
+                  variant="standard"
+                  onChange={ handleChange }
+                />
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <TextField
+                  required
+                  name="city"
+                  label="City"
+                  fullWidth
+                  autoComplete="cc-number"
+                  variant="standard"
+                  onChange={ handleChange }
+                />
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <TextField
+                  required
+                  name="state"
+                  label="State"
+                  fullWidth
+                  autoComplete="cc-number"
+                  variant="standard"
+                  onChange={ handleChange }
+                />
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <TextField
+                  required
+                  name="stree"
+                  label="Street"
                   fullWidth
                   autoComplete="cc-number"
                   variant="standard"

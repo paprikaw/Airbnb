@@ -7,7 +7,7 @@ export default function LoginNotice () {
     <div>
       <Typography>
         {'You have not login, please '}
-        <Link to='/'>Login</Link>
+        <Link to='/login'>Login</Link>
       </Typography>
     </div>
   )
